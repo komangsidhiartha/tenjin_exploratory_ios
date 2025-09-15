@@ -10,7 +10,11 @@ This project is the third and final piece of a multi-platform analysis of the Te
 
 ## The Integration Journey: A Multi-Layered Challenge
 
-### 1. The Initial Blocker: A Critical Xcode SPM Bug
+### 1. Prerequisite: Dashboard Setup & Key Retrieval
+
+Before any code can be written, the first step is to create an application within the Tenjin dashboard to obtain the necessary SDK Key. This presents the first point of friction in the onboarding flow, as the documentation jumps directly into code integration without first outlining this mandatory administrative step.
+
+### 2. The Initial Blocker: A Critical Xcode SPM Bug
 
 The standard procedure for adding an SPM package (`File > Add Packages...`) using the official Tenjin iOS SDK URL repeatedly failed with a misleading "Received invalid response" error. A methodical diagnostic process was undertaken:
 1.  **Network Verification:** A `git clone` from the command line succeeded, proving the network and repository URL were valid.
@@ -18,21 +22,21 @@ The standard procedure for adding an SPM package (`File > Add Packages...`) usin
 3.  **Diagnosis:** This sequence definitively proved the failure lies within **Xcode's remote package fetching mechanism**, not the Tenjin repository.
 4.  **Workaround:** The repository was cloned locally and successfully added to the project using Xcode's "Add Local..." package option.
 
-### 2. The Legacy Bridge: Integrating an Objective-C SDK
+### 3. The Legacy Bridge: Integrating an Objective-C SDK
 
 With the package added, the integration proceeded. As correctly stated in the Tenjin iOS SDK guide, the library is an Objective-C binary (`.xcframework`), not a pure Swift package. This required two manual configuration steps:
 1.  **Objective-C Bridging Header:** A bridging header was created and configured to expose the Objective-C classes to the Swift code, as per the documentation.
 2.  **Header Search Paths:** The build still failed with a `'TenjinSDK.h' file not found` error. The solution was to manually add the path to the framework's internal `Headers` directory in the project's "Header Search Paths" build setting. This is a common but undocumented final step when integrating local binary frameworks.
 
-### 3. The Lifecycle Mismatch: SwiftUI and `didFinishLaunchingWithOptions`
+### 4. The Lifecycle Mismatch: SwiftUI and `didFinishLaunchingWithOptions`
 
 The Tenjin SDK requires initialization in the `didFinishLaunchingWithOptions` method, which is absent in the modern SwiftUI app lifecycle. The correct, Apple-sanctioned solution was implemented:
 * An `AppDelegate` class was created to house the SDK initialization logic.
 * This class was attached to the SwiftUI App lifecycle using the `@UIApplicationDelegateAdaptor` property wrapper.
 
-### 4. The Final Hurdle: Code Signing & Provisioning
+### 5. The Final Hurdle: Code Signing & Provisioning
 
-Initial attempts to run on a physical device failed due to an expired personal developer account. The issue was resolved by correctly configuring the project's "Signing & Capabilities" to use an active company developer account, allowing for successful deployment and testing on a physical device.
+Initial attempts to run on a physical device failed due to an expired personal developer account. The issue was resolved by correctly configuring the project's "Signing & Capabilities" to use an active developer account, allowing for successful deployment and testing on a physical device.
 
 ## Key Findings & Developer Experience (DX) Suggestions
 
