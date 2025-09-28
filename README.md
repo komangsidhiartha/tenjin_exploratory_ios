@@ -34,9 +34,33 @@ The Tenjin SDK requires initialization in the `didFinishLaunchingWithOptions` me
 * An `AppDelegate` class was created to house the SDK initialization logic.
 * This class was attached to the SwiftUI App lifecycle using the `@UIApplicationDelegateAdaptor` property wrapper.
 
+```swift
+@main
+struct YourApp: App {
+  // Attach the App Delegate to the SwiftUI lifecycle
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
+    }
+  }
+}
+```
+
 ### 5. The Final Hurdle: Code Signing & Provisioning
 
 Initial attempts to run on a physical device failed due to an expired personal developer account. The issue was resolved by correctly configuring the project's "Signing & Capabilities" to use an active developer account, allowing for successful deployment and testing on a physical device.
+
+### How to Run This Project
+
+1.  Clone the Tenjin iOS SDK repository to your local machine.
+2.  In Xcode, add the SDK using **File > Add Packages... > Add Local...** and select the cloned directory.
+3.  Configure the **Objective-C Bridging Header** as described in the Tenjin documentation.
+4.  In **Build Settings**, add the path to the framework's `Headers` directory to **Header Search Paths**.
+5.  In `AppDelegate.swift`, replace `"YOUR_TENJIN_API_KEY"` in the `AppDelegate`.
+6.  Configure your **Signing & Capabilities** with an active developer account.
+7.  Build and run on a physical iOS device.
 
 ## Key Findings & Developer Experience (DX) Suggestions
 
