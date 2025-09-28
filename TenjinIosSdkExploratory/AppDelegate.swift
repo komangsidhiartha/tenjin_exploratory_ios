@@ -19,7 +19,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // --- TENJIN SDK INITIALIZATION ---
         // This is the correct and safe place to call the SDK setup.
-        TenjinSDK.getInstance("DVHECL19KPEYKNFXBXXH4RBZD2LEACPI")
+        TenjinSDK.getInstance("YOUR_TENJIN_API_KEY")
         TenjinSDK.connect()
         TenjinSDK.debugLogs()
         // ---------------------------------
