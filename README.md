@@ -58,7 +58,7 @@ Initial attempts to run on a physical device failed due to an expired personal d
 2.  In Xcode, add the SDK using **File > Add Packages... > Add Local...** and select the cloned directory.
 3.  Configure the **Objective-C Bridging Header** as described in the Tenjin documentation.
 4.  In **Build Settings**, add the path to the framework's `Headers` directory to **Header Search Paths**.
-5.  In `AppDelegate.swift`, replace `"YOUR_TENJIN_API_KEY"` in the `AppDelegate`.
+5.  In AppDelegate.swift, locate the application(_:didFinishLaunchingWithOptions:) method and replace "YOUR_TENJIN_API_KEY" with your key.
 6.  Configure your **Signing & Capabilities** with an active developer account.
 7.  Build and run on a physical iOS device.
 
